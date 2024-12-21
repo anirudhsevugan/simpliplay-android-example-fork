@@ -26,9 +26,9 @@ For Android 8, make sure you **have a WebView installed**, or else the HTML5 pla
 ### Issues
 On Android 8, there are some input issues, like not being able to press the play button. This is **most likely an issue with the VM and shouldn't happen on a real device**.
 
-On Android 5, a severe codec issue happens when loading any video. This is most likely due to the fact that **Android 5 does not support the latest video codecs**, the same issue does not happen on Android 15, 14, or Android 8.
+On Android 5, a severe codec issue happens when loading any video, in both ExoPlayer *and* the HTML5 player. This is most likely due to the fact that **Android 5 does not support the latest video codecs**.
 
-On any other Android version, URLs that are signed using self-signed certificates return a source error, this is **normal behavior in Android to keep you safe, so it isn't an issue with the OS**.
+On any other Android version, URLs that are signed using self-signed certificates return a source error in ExoPlayer, this is **normal behavior in Android to keep you safe, so it isn't an issue with the OS**.
 
 ## More Info
 The VMs were actually [Android Virtual Devices](https://developer.android.com/studio/run/managing-avds) that were created in Android Studio.
