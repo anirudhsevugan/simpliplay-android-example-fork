@@ -8,3 +8,13 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | ExoPlayer for App Inventor  | v1 and beyond    |
 | UpdateMyApp | v1.4.1  |
 
+## Compatibility
+ExoPlayer Creator has been tested on the following devices with the following results:
+
+| Device | Compatible? | Real Device/VM |
+| -------- | ------- |  ------- |
+| Android 15  | Yes   |  VM     |
+| Android 14 | Yes  |   Real Device   |
+| Android 8 | Yes  |   VM   |
+| Android 5 | **No**  |   VM   |
+
