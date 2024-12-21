@@ -16,7 +16,7 @@ ExoPlayer Creator has been tested on the following devices with the following re
 | Android 15  | Yes   |  VM     |
 | Android 14 | Yes  |   Real Device   |
 | Android 8 | Yes  |   VM   |
-| Android 5 | **Not completely**  |   VM   |
+| Android 5 | **No**  |   VM   |
 
 
 Compatibility-wise, **most versions of Android work just fine with the app**, but if you're using Android 7 or below, note that I either haven't tested the app on those devices or the app failed to function as intended.
@@ -26,7 +26,7 @@ For Android 8, make sure you **have a WebView installed**, or else the HTML5 pla
 ### Issues
 On Android 8, there are some input issues, like not being able to press the play button. This is **most likely an issue with the VM and shouldn't happen on a real device**.
 
-On Android 5, any HTTPS video returns a source error, even with the correct URL typed in. This is **most likely an issue with TLS support, as Android 5 does not support modern TLS cipher suites that most websites use these days**.
+On Android 5, a severe codec issue happens when loading any video. This is most likely due to the fact that **Android 5 does not support the latest video codecs**, the same issue does not happen on Android 15, 14, or Android 8.
 
 On any other Android version, URLs that are signed using self-signed certificates return a source error, this is **normal behavior in Android to keep you safe, so it isn't an issue with the OS**.
 
