@@ -19,7 +19,7 @@ ExoPlayer Creator has been tested on the following devices with the following re
 | Android 5 | **No**  |   VM   |
 
 
-Compatibility-wise, **most versions of Android work just fine with the app**, but if you're using Android 7 or below, note that we either haven't tested the app on those devices or the app failed to function as intended.
+Compatibility-wise, **most versions of Android work just fine with the app**, but if you're using Android 7 or below, note that I either haven't tested the app on those devices or the app failed to function as intended.
 
 For Android 8, make sure you **have a WebView installed**, or else the HTML5 player won't work because it relies on a WebView to display the player. This is important in VMs since unlike commercial devices they are meant more for developer purposes and thus lack some important tools, like the Play Store (some Android SDKs do not include it), WebViews, etc.
 
