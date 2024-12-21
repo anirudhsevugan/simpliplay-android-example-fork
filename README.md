@@ -20,6 +20,8 @@ ExoPlayer Creator has been tested on the following devices with the following re
 
 ### Issues
 On Android 8, there are some input issues, like not being able to press the play button. This is **most likely an issue with the VM and shouldn't happen on a real device**.
+
 On Android 5, any HTTPS video returns a source error, even with the correct URL typed in. This is **most likely an issue with TLS support, as Android 5 does not support modern TLS cipher suites that most websites use these days**.
+
 On any other Android version, URLs that are signed using self-signed certificates return a source error, this is **normal behavior in Android to keep you safe, so it isn't an issue with the OS**.
 
