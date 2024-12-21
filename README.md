@@ -30,7 +30,7 @@ On Android 5, a severe codec issue happens when loading any video, in both ExoPl
 
 On any other Android version, URLs that are signed using self-signed certificates return a source error in ExoPlayer, this is **normal behavior in Android to keep you safe, so it isn't an issue with the OS**.
 
-## More Info
+## Fun Facts!
 The VMs were actually [Android Virtual Devices](https://developer.android.com/studio/run/managing-avds) that were created in Android Studio.
 
 
