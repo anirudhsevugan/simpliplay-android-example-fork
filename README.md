@@ -25,3 +25,12 @@ On Android 5, any HTTPS video returns a source error, even with the correct URL 
 
 On any other Android version, URLs that are signed using self-signed certificates return a source error, this is **normal behavior in Android to keep you safe, so it isn't an issue with the OS**.
 
+### More Info
+The VMs were actually [Android Virtual Devices](https://developer.android.com/studio/run/managing-avds) that were created in Android Studio.
+
+Compatibility-wise, **most versions of Android work just fine with the app**, but if you're using Android 7 or below, note that we haven't tested the app on those devices and don't really need to. Android 8 is basically the border between what most people will use and most people who won't.
+
+For Android 8, make sure you **have a WebView installed**, or else the HTML5 player won't work because it relies on a WebView to display the player. This is important in VMs since unlike commercial devices they are meant more for developer purposes and thus lack some important tools, like the Play Store (some Android SDKs do not include it), WebViews, etc.
+
+
+
