@@ -28,7 +28,7 @@ On Android 8, there are some input issues, like not being able to press the play
 
 On Android 5, a severe codec issue happens when loading any video, in both ExoPlayer *and* the HTML5 player. This is most likely due to the fact that **Android 5 does not support the latest video codecs**.
 
-And on any Android OS (this issue cannot be fixed), URLs that are signed using self-signed certificates return a source error in ExoPlayer, **this is normal behavior in Android** and it ***cannot* be fixed because Android does not allow bypassing this check**.
+And on any Android OS, URLs that are signed using self-signed certificates return a source error in ExoPlayer, **this is normal behavior in Android** and it ***cannot* be fixed because Android does not allow bypassing this check**.
 
 ## Fun Facts!
 The VMs were actually [Android Virtual Devices](https://developer.android.com/studio/run/managing-avds) that were created in Android Studio.
