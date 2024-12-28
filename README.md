@@ -26,7 +26,7 @@ Make sure you **have a WebView installed**, or else the HTML5 player won't work 
 ### Issues (that can't really be fixed)
 On Android 5, a severe codec issue happens when loading any video, in both ExoPlayer *and* the HTML5 player. This is most likely due to the fact that **Android 5 does not support the latest video codecs**.
 
-And on any Android version, URLs that are signed using self-signed certificates return a source error in any video player in the app that supports using video URLs, **this is normal behavior in Android** and it ***cannot* be fixed because Android does not allow bypassing this check**.
+And on any Android version, URLs that are signed using self-signed certificates return a source error in any video player in the app that supports using video URLs, **this is normal behavior in Android** and it ***cannot* be fixed** because Android does not allow bypassing this check.
 
 ## Fun Facts!
 The VMs were actually [Android Virtual Devices](https://developer.android.com/studio/run/managing-avds) that were created in Android Studio.
