@@ -31,5 +31,7 @@ And on any Android version, URLs that are signed using self-signed certificates 
 ## Fun Facts!
 The VMs were actually [Android Virtual Devices](https://developer.android.com/studio/run/managing-avds) that were created in Android Studio.
 
+The app's size is *about* 28 MB once installed, but the APK is a rather small 4.3 MB
+
 
 
