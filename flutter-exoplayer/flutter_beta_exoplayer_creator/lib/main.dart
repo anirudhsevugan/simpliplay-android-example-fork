@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
-import 'package:keep_screen_on/keep_screen_on.dart'; // Import the keep_screen_on package
+import 'package:keep_screen_on/keep_screen_on.dart';
+import 'package:file_picker/file_picker.dart'; // Import the file picker package
+import 'dart:io'; // Import for File class
 
 void main() {
   runApp(MyApp());
@@ -15,41 +17,40 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,  // Set primary color to blue
+        primarySwatch: Colors.blue,
         colorScheme: ColorScheme.light(
-          primary: Colors.blue,         // Primary color
-          secondary: Colors.blueAccent, // Accent color (replaces accentColor)
+          primary: Colors.blue,
+          secondary: Colors.blueAccent,
         ),
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.blue, // Set AppBar background to blue
+          backgroundColor: Colors.blue,
         ),
         buttonTheme: ButtonThemeData(
-          buttonColor: Colors.blue,  // Set button color to blue
+          buttonColor: Colors.blue,
         ),
-        // Customize other theme properties as needed
       ),
-      home: VideoURLScreen(),
+      home: VideoScreen(),
     );
   }
 }
 
-class VideoURLScreen extends StatefulWidget {
-  const VideoURLScreen({super.key});
+class VideoScreen extends StatefulWidget {
+  const VideoScreen({super.key});
 
   @override
-  _VideoURLScreenState createState() => _VideoURLScreenState();
+  _VideoScreenState createState() => _VideoScreenState();
 }
 
-class _VideoURLScreenState extends State<VideoURLScreen> {
+class _VideoScreenState extends State<VideoScreen> {
   String _videoUrl = '';
+  String _filePath = '';
 
-  // Show the dialog to ask for the video URL
   Future<void> _showVideoURLDialog() async {
     final TextEditingController videoController = TextEditingController();
 
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // Prevent dismissing by tapping outside
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Enter Video URL'),
@@ -75,6 +76,7 @@ class _VideoURLScreenState extends State<VideoURLScreen> {
               onPressed: () {
                 setState(() {
                   _videoUrl = videoController.text;
+                  _filePath = ''; // Clear file path if URL is chosen
                 });
                 Navigator.of(context).pop();
               },
@@ -85,6 +87,17 @@ class _VideoURLScreenState extends State<VideoURLScreen> {
     );
   }
 
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.video);
+
+    if (result != null && result.files.single.path != null) {
+      setState(() {
+        _filePath = result.files.single.path!;
+        _videoUrl = ''; // Clear video URL if a file is chosen
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,12 +105,25 @@ class _VideoURLScreenState extends State<VideoURLScreen> {
         title: Text('ExoPlayer Creator (New Edition)'),
       ),
       body: Center(
-        child: _videoUrl.isEmpty
-            ? ElevatedButton(
-          onPressed: _showVideoURLDialog,
-          child: Text('Enter Video URL'),
+        child: _videoUrl.isEmpty && _filePath.isEmpty
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: _showVideoURLDialog,
+              child: Text('Enter Video URL'),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _pickFile,
+              child: Text('Choose Video File'),
+            ),
+          ],
         )
-            : VideoPlayerWidget(videoUrl: _videoUrl),
+            : VideoPlayerWidget(
+          videoUrl: _videoUrl,
+          filePath: _filePath,
+        ),
       ),
     );
   }
@@ -105,8 +131,9 @@ class _VideoURLScreenState extends State<VideoURLScreen> {
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
+  final String filePath;
 
-  const VideoPlayerWidget({super.key, required this.videoUrl});
+  const VideoPlayerWidget({super.key, required this.videoUrl, required this.filePath});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -119,7 +146,12 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl)); // Convert String to Uri
+
+    if (widget.filePath.isNotEmpty) {
+      _videoPlayerController = VideoPlayerController.file(File(widget.filePath));
+    } else {
+      _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
+    }
 
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
@@ -128,12 +160,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       looping: true,
     );
 
-    // Enable keep_screen_on to prevent screen sleep
     _videoPlayerController.addListener(() {
       if (_videoPlayerController.value.isPlaying) {
-        KeepScreenOn.turnOn(); // Keep the screen on while video is playing
+        KeepScreenOn.turnOn();
       } else {
-        KeepScreenOn.turnOff(); // Allow the screen to turn off when the video is paused or stopped
+        KeepScreenOn.turnOff();
       }
     });
   }
@@ -143,7 +174,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     super.dispose();
     _chewieController.dispose();
     _videoPlayerController.dispose();
-    KeepScreenOn.turnOff(); // Ensure screen turns off when the widget is disposed
+    KeepScreenOn.turnOff();
   }
 
   @override
@@ -152,25 +183,4 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       controller: _chewieController,
     );
   }
-}
-
-// Confirm exit when back is pressed
-Future<bool> _onWillPop(BuildContext context) async {
-  return await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('Are you sure?'),
-      content: Text('If you exit now, ExoPlayer will stop playing.'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: Text('No'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
-          child: Text('Yes'),
-        ),
-      ],
-    ),
-  ) ?? false;
 }
