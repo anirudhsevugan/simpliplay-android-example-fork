@@ -31,7 +31,7 @@ And on any Android version, URLs that are signed using self-signed certificates 
 ## Flutter Ver. (Beta)
 The Flutter version was built in Android Studio with the Flutter plugin, and primarily relies on the video_player and chewie plugins, uses the keep_screen_on plugin to keep screen active when playing a video, uses the file_picker plugin to pick a video file on your device to play, and unlike the App Inventor version, uses a much more modern UI standard called Material UI, which builds on top of the Material Design language by Google (App Inventor uses *just* Material Design with no extra styling), and which is why the text dialogs in the Flutter release (or any dialogs for that matter) look much more modern and compare to most apps on the Play Store.
 
-It uses **ExoPlayer 2**, just like the App Inventor version, but has less controls, but is simpler to use and *much* more user-friendly, and is solely ExoPlayer (at least, for now). It does not support subtitles or a quality selector, but it supports everything else the App Inventor version does in the ExoPlayer point of view (P.O.V).
+It uses **ExoPlayer 2**, just like the App Inventor version, but has less controls, but is simpler to use and *much* more user-friendly, and is solely ExoPlayer (at least, for now). It does not support a quality selector, or advanced audio settings, but it supports everything else the App Inventor version does in the ExoPlayer point of view (P.O.V).
 
 ## Media3 Demo (Very Early Demo)
 The Media3 Demo was built in Android Studio using Kotlin, and uses the [Media3 Player](https://github.com/akhorasani/Media3Player) app as a base for all Media3 support, and uses the traditional INTENT methods for URL redirects in Kotlin.
