@@ -33,6 +33,7 @@ dependencies:
   video_player: ^2.3.0  # Make sure to check for the latest version
   chewie: ^1.2.2  # Optional, if you want to use a higher-level video player with controls
   keep_screen_on: ^3.0.0  # Add this line
+  file_picker: ^5.2.2  # Use the latest version
 
 dev_dependencies:
   flutter_test:
