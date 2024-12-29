@@ -1,6 +1,6 @@
-# media3_exoplayer_creator
+# flutter_exoplayer_creator
 
-ExoPlayer Creator that supports Media3
+Flutter version of ExoPlayer Creator
 
 ## Getting Started
 
