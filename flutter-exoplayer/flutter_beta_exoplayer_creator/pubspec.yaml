@@ -33,6 +33,8 @@ dependencies:
   video_player: ^2.3.0  # Make sure to check for the latest version
   chewie: ^1.2.2  # Optional, if you want to use a higher-level video player with controls
   keep_screen_on: ^3.0.0  # Add this line
+  file_picker: ^5.2.2  # Use the latest version
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +53,7 @@ dev_dependencies:
 flutter_icons:
     android: true
     ios: true
-    image_path: "assets/icon/icon.png"
+    image_path: "assets/icon.png"
 
 # The following section is specific to Flutter packages.
 flutter:
