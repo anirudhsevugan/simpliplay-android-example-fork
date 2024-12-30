@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
+import 'package:http/http.dart' as http;
 import 'dart:io';  // Import to use File class
 import 'package:media3_exoplayer_creator/utils/permission_utils.dart'; // Import permission_utils.dart for permission handling
-import 'package:media3_exoplayer_creator/utils/web_vtt.dart';
-
-
+import 'package:keep_screen_on/keep_screen_on.dart'; // Import keep_screen_on
+import '../utils/web_vtt.dart'; // Import web_vtt.dart for subtitle handling
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
@@ -30,6 +30,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   late ChewieController _chewieController;
   late List<WebVttCue> _subtitles;
   String? _currentSubtitle;
+  bool _isLoading = true; // Flag to track loading state of subtitles
 
   @override
   void initState() {
@@ -57,11 +58,85 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
     // Load subtitles if needed
     _loadSubtitles();
+
+    // Keep the screen on while the video is playing
+    KeepScreenOn.turnOn();
+
+    // Listen to video position changes to update subtitles
+    _videoPlayerController.addListener(_updateCurrentSubtitle);
+  }
+
+  @override
+  void dispose() {
+    // Turn off the screen stay-on feature when the widget is disposed
+    KeepScreenOn.turnOff();
+    _videoPlayerController.removeListener(_updateCurrentSubtitle);
+    _videoPlayerController.dispose();
+    super.dispose();
   }
 
   // Method to load subtitles (you can adapt it to your subtitle parsing logic)
   Future<void> _loadSubtitles() async {
-    // Add your subtitle loading logic here
+    setState(() {
+      _isLoading = true; // Start loading subtitles
+    });
+
+    // Check if subtitle path is provided
+    if (widget.subtitleFilePath.isNotEmpty) {
+      // Load subtitle from local file
+      try {
+        final file = File(widget.subtitleFilePath);
+        final subtitleData = await file.readAsString();
+        setState(() {
+          _subtitles = parseWebVtt(subtitleData); // Use parseWebVtt from web_vtt.dart
+          _isLoading = false; // Subtitles loaded successfully
+        });
+      } catch (e) {
+        setState(() {
+          _isLoading = false; // Failed to load subtitles
+        });
+        print('Error loading subtitle file: $e');
+      }
+    } else if (widget.subtitleUrl.isNotEmpty) {
+      // Load subtitle from URL
+      try {
+        final response = await http.get(Uri.parse(widget.subtitleUrl));
+        if (response.statusCode == 200) {
+          setState(() {
+            _subtitles = parseWebVtt(response.body); // Use parseWebVtt from web_vtt.dart
+            _isLoading = false; // Subtitles loaded successfully
+          });
+        } else {
+          setState(() {
+            _isLoading = false; // Failed to load subtitles from URL
+          });
+          print('Failed to load subtitle from URL: ${response.statusCode}');
+        }
+      } catch (e) {
+        setState(() {
+          _isLoading = false; // Failed to load subtitles
+        });
+        print('Error loading subtitle from URL: $e');
+      }
+    }
+  }
+
+  // Method to update the current subtitle based on the video position
+  void _updateCurrentSubtitle() {
+    final currentTime = _videoPlayerController.value.position;
+
+    for (var cue in _subtitles) {
+      if (currentTime >= cue.start && currentTime <= cue.end) {
+        setState(() {
+          _currentSubtitle = cue.text;
+        });
+        return;
+      }
+    }
+
+    setState(() {
+      _currentSubtitle = '';
+    });
   }
 
   @override
@@ -70,18 +145,28 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       body: Stack(
         children: [
           Chewie(controller: _chewieController),  // Video player widget
-          if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty)
+          // Show a loading indicator while subtitles are loading
+          if (_isLoading)
+            Center(
+              child: CircularProgressIndicator(),
+            ),
+          // Display the current subtitle
+          if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty && !_isLoading)
             Positioned(
               bottom: 50,
               left: 0,
               right: 0,
-              child: Text(
-                _currentSubtitle!,
-                style: TextStyle(
-                  fontSize: 19,
-                  color: Colors.white,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                color: Colors.black.withOpacity(0.7), // Black background with transparency
+                child: Text(
+                  _currentSubtitle!,
+                  style: TextStyle(
+                    fontSize: 19,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
         ],
