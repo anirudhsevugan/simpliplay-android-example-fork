@@ -1,5 +1,5 @@
 # ExoPlayer Creator
-An Android app that can create ExoPlayer 2 video players, HTML5 video players, and video players that play back what you recorded (called Camcorder players in-app) instantly, developed in MIT App Inventor.
+An Android app that can create ExoPlayer 2 video players, HTML5 video players, and video players that play back what you recorded (called Camcorder players in-app) instantly, developed in MIT App Inventor, with a **beta** Flutter release, and an **extremely early** Media3 Kotlin demo.
 
 ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
 
@@ -8,7 +8,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | ExoPlayer for App Inventor  | v1 and beyond    |
 | UpdateMyApp | v1.4.1  |
 
-## Compatibility
+## App Inventor Ver. Compatibility
 ExoPlayer Creator has been tested on the following devices with the following results:
 
 | Device | Compatible? | Real Device/VM |
@@ -28,10 +28,17 @@ On Android 5, a severe codec issue happens when loading any video, in both ExoPl
 
 And on any Android version, URLs that are signed using self-signed certificates return a source error in any video player in the app that supports using video URLs, **this is normal behavior in Android** and it ***cannot* be fixed** because Android does not allow bypassing this check.
 
-## Fun Facts!
-The VMs were actually [Android Virtual Devices](https://developer.android.com/studio/run/managing-avds) that were created in Android Studio.
+## Flutter Ver. (Beta)
+The Flutter version was built in Android Studio with the Flutter plugin, and primarily relies on the video_player and chewie plugins, uses the keep_screen_on plugin to keep screen active when playing a video, uses the file_picker plugin to pick a video and subtitle file on your device to play, and unlike the App Inventor version, uses a different UI standard, which is rendered with [Skia](https://skia.org/), that looks *similar* to Material UI, but is using a completely different framework.
 
-The app's size is *about* 28 MB once installed, but the APK is a rather small 4.3 MB
+It uses **ExoPlayer 2**, just like the App Inventor version, but has less controls, but is simpler to use and *much* more user-friendly, and is solely ExoPlayer (at least, for now). It does not support a quality selector, or advanced audio settings, but it supports everything else the App Inventor version does in the ExoPlayer point of view (P.O.V).
+
+## Media3 Demo (Very Early Demo)
+The Media3 Demo was built in Android Studio using Kotlin, and uses the [Media3 Player](https://github.com/akhorasani/Media3Player) app as a base for all Media3 support, and uses the traditional INTENT methods for URL redirects in Kotlin.
+
+It, unlike the other 2 versions, is in a **very early** state right now and does not support video URLs (believe me, I tried, and failed), as of now. However, the placeholder video is the [Big Buck Bunny](https://peach.blender.org/) short film, stored in a GCP (Google Cloud Protocol) storage bucket.
+
+
 
 
 
