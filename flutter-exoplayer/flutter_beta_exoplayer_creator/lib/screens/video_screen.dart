@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import '../widgets/video_player_widget.dart';
-import 'package:media3_exoplayer_creator/main.dart';
 
 // The VideoScreen widget class
 class VideoScreen extends StatefulWidget {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:http/http.dart' as http;
-import 'dart:io';  // Import to use File class
+import 'dart:io'; // Import to use File class
 import 'package:media3_exoplayer_creator/utils/permission_utils.dart'; // Import permission_utils.dart for permission handling
 import 'package:keep_screen_on/keep_screen_on.dart'; // Import keep_screen_on
 import '../utils/web_vtt.dart'; // Import web_vtt.dart for subtitle handling
@@ -30,15 +31,17 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   late ChewieController _chewieController;
   late List<WebVttCue> _subtitles;
   String? _currentSubtitle;
-  bool _isLoading = true; // Flag to track loading state of subtitles
+  bool _isLoading = true;
+  double _playbackSpeed = 1.0;
+  bool _controlsVisible = true; // Keep track of control visibility
 
   @override
   void initState() {
     super.initState();
 
-    // Request permission for subtitle files if a subtitle file path is provided
+    // Request permission for subtitle files if needed
     if (widget.subtitleFilePath.isNotEmpty) {
-      requestPermissionIfNeeded(widget.subtitleFilePath, context);  // Correctly call the method here
+      requestPermissionIfNeeded(widget.subtitleFilePath, context);
     }
 
     // Initialize the video player controller based on video URL or file path
@@ -49,12 +52,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     }
 
     // Initialize the Chewie controller for video playback
-    _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController,
-      aspectRatio: 16 / 9,
-      autoPlay: true,
-      looping: true,
-    );
+    _initializeChewieController();
 
     // Load subtitles if needed
     _loadSubtitles();
@@ -64,64 +62,87 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
     // Listen to video position changes to update subtitles
     _videoPlayerController.addListener(_updateCurrentSubtitle);
+
+    // Apply immersive mode once the widget builds
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _applyImmersiveMode();
+    });
+
+    // Initialize the video player
+    _initializeVideoPlayer();
+  }
+
+  void _applyImmersiveMode() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  }
+
+  void _initializeChewieController() {
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController,
+      aspectRatio: 16 / 9,
+      autoPlay: true,
+      looping: true,
+      allowPlaybackSpeedChanging: false, // Disable built-in playback speed dropdown
+      customControls: MaterialControls(
+        // Custom controls if needed
+      ),
+      showControlsOnInitialize: true, // Show controls on initialization
+    );
   }
 
   @override
   void dispose() {
-    // Turn off the screen stay-on feature when the widget is disposed
     KeepScreenOn.turnOff();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+
     _videoPlayerController.removeListener(_updateCurrentSubtitle);
+    _chewieController.dispose();
     _videoPlayerController.dispose();
     super.dispose();
   }
 
-  // Method to load subtitles (you can adapt it to your subtitle parsing logic)
   Future<void> _loadSubtitles() async {
     setState(() {
-      _isLoading = true; // Start loading subtitles
+      _isLoading = true;
     });
 
-    // Check if subtitle path is provided
     if (widget.subtitleFilePath.isNotEmpty) {
-      // Load subtitle from local file
       try {
         final file = File(widget.subtitleFilePath);
         final subtitleData = await file.readAsString();
         setState(() {
-          _subtitles = parseWebVtt(subtitleData); // Use parseWebVtt from web_vtt.dart
-          _isLoading = false; // Subtitles loaded successfully
+          _subtitles = parseWebVtt(subtitleData);
+          _isLoading = false;
         });
       } catch (e) {
         setState(() {
-          _isLoading = false; // Failed to load subtitles
+          _isLoading = false;
         });
         print('Error loading subtitle file: $e');
       }
     } else if (widget.subtitleUrl.isNotEmpty) {
-      // Load subtitle from URL
       try {
         final response = await http.get(Uri.parse(widget.subtitleUrl));
         if (response.statusCode == 200) {
           setState(() {
-            _subtitles = parseWebVtt(response.body); // Use parseWebVtt from web_vtt.dart
-            _isLoading = false; // Subtitles loaded successfully
+            _subtitles = parseWebVtt(response.body);
+            _isLoading = false;
           });
         } else {
           setState(() {
-            _isLoading = false; // Failed to load subtitles from URL
+            _isLoading = false;
           });
           print('Failed to load subtitle from URL: ${response.statusCode}');
         }
       } catch (e) {
         setState(() {
-          _isLoading = false; // Failed to load subtitles
+          _isLoading = false;
         });
         print('Error loading subtitle from URL: $e');
       }
     }
   }
 
-  // Method to update the current subtitle based on the video position
   void _updateCurrentSubtitle() {
     final currentTime = _videoPlayerController.value.position;
 
@@ -139,38 +160,106 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     });
   }
 
+  void _initializeVideoPlayer() async {
+    await _videoPlayerController.initialize();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void _changePlaybackSpeed(double speed) {
+    setState(() {
+      _playbackSpeed = speed;
+      _videoPlayerController.setPlaybackSpeed(speed);
+
+      // Reapply immersive mode after speed change
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _applyImmersiveMode();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Chewie(controller: _chewieController),  // Video player widget
-          // Show a loading indicator while subtitles are loading
-          if (_isLoading)
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-          // Display the current subtitle
-          if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty && !_isLoading)
-            Positioned(
-              bottom: 50,
-              left: 0,
-              right: 0,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                color: Colors.black.withOpacity(0.7), // Black background with transparency
-                child: Text(
-                  _currentSubtitle!,
-                  style: TextStyle(
-                    fontSize: 19,
-                    color: Colors.white,
+      body: GestureDetector(
+        onTap: () {
+          setState(() {
+            _controlsVisible = !_controlsVisible; // Toggle controls visibility on tap
+          });
+          _applyImmersiveMode(); // Reapply immersive mode
+        },
+        child: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Container(
+                    color: Colors.black,
+                    child: Chewie(controller: _chewieController),
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                  if (_isLoading)
+                    Center(child: CircularProgressIndicator()),
+                  if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty && !_isLoading)
+                    Positioned(
+                      bottom: 70,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        color: Colors.black.withOpacity(0.7),
+                        child: Text(
+                          _currentSubtitle!,
+                          style: TextStyle(fontSize: 19, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  // Custom playback speed control button
+                  Positioned(
+                    top: 20,
+                    right: 20,
+                    child: AnimatedOpacity(
+                      opacity: _controlsVisible ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 300), // Adjust duration for fade effect
+                      child: IconButton(
+                        icon: Icon(Icons.speed, color: Colors.white),
+                        onPressed: () {
+                          _showPlaybackSpeedDialog();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-        ],
+          ],
+        ),
       ),
+    );
+  }
+
+  // Show a dialog to select the playback speed
+  void _showPlaybackSpeedDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Select Playback Speed"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0].map((speed) {
+              return ListTile(
+                title: Text("${speed}x"),
+                onTap: () {
+                  _changePlaybackSpeed(speed);
+                  Navigator.of(context).pop();
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
     );
   }
 }
