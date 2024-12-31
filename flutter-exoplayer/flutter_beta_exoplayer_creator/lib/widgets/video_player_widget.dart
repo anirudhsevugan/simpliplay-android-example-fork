@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';  // Import to use File class
 import 'package:media3_exoplayer_creator/utils/permission_utils.dart'; // Import permission_utils.dart for permission handling
 import 'package:keep_screen_on/keep_screen_on.dart'; // Import keep_screen_on
+import 'package:flutter/services.dart'; // Import SystemChrome
 import '../utils/web_vtt.dart'; // Import web_vtt.dart for subtitle handling
 
 class VideoPlayerWidget extends StatefulWidget {
@@ -62,14 +63,22 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     // Keep the screen on while the video is playing
     KeepScreenOn.turnOn();
 
+    // Hide system UI (status bar and navigation bar) when the video starts
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
     // Listen to video position changes to update subtitles
     _videoPlayerController.addListener(_updateCurrentSubtitle);
+
+    // Initialize the video player
+    _initializeVideoPlayer();
   }
 
   @override
   void dispose() {
-    // Turn off the screen stay-on feature when the widget is disposed
+    // Turn off the screen stay-on feature and reset the system UI when the widget is disposed
     KeepScreenOn.turnOff();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values); // Restore UI to default
+
     _videoPlayerController.removeListener(_updateCurrentSubtitle);
     _videoPlayerController.dispose();
     super.dispose();
@@ -139,21 +148,35 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     });
   }
 
+  void _initializeVideoPlayer() async {
+    // Initialize the video player
+    await _videoPlayerController.initialize();
+
+    // Update loading state once the video is ready
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Chewie(controller: _chewieController),  // Video player widget
-          // Show a loading indicator while subtitles are loading
+          // Background set to black
+          Container(
+            color: Colors.black,
+            child: Chewie(controller: _chewieController), // Video player widget
+          ),
+          // Show a loading indicator while video or subtitles are loading
           if (_isLoading)
             Center(
               child: CircularProgressIndicator(),
             ),
-          // Display the current subtitle
+          // Display the current subtitle if available
           if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty && !_isLoading)
             Positioned(
-              bottom: 50,
+              bottom: 70, // Adjusted the bottom padding to be higher
               left: 0,
               right: 0,
               child: Container(
