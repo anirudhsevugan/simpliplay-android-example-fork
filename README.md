@@ -8,7 +8,6 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | ExoPlayer for App Inventor  | v1 and beyond    |
 | UpdateMyApp | v1.4.1  |
 | UrsAI2SideBar | v2.0  |
-| GestureDetect | v2.0  |
 
 
 ## App Inventor Ver. Compatibility
