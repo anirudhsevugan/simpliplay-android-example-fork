@@ -1,5 +1,5 @@
 # ExoPlayer Creator
-An Android app that can create ExoPlayer 2 video players, HTML5 video players, and video players that play back what you recorded (called Camcorder players in-app) instantly, developed in MIT App Inventor, with a **beta** Flutter release, and an **extremely early** Media3 Kotlin demo.
+An Android app that can create ExoPlayer 2 video players, HTML5 video players, and video players that play back what you recorded (called Camcorder players in-app) instantly, developed in MIT App Inventor, with a Flutter release (considered the **new** version), and an **extremely early** Media3 Kotlin demo.
 
 ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
 
