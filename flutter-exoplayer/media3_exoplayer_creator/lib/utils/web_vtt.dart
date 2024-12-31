@@ -10,13 +10,14 @@ class WebVttCue {
   });
 }
 
+// Subtitle parsing logic (WebVTT format)
 List<WebVttCue> parseWebVtt(String subtitleData) {
   final cuePattern = RegExp(r'(\d{2}:\d{2}:\d{2}.\d{3}) --> (\d{2}:\d{2}:\d{2}.\d{3})\n(.*?)\n\n', dotAll: true);
   final List<WebVttCue> cues = [];
 
   for (final match in cuePattern.allMatches(subtitleData)) {
-    final start = parseTime(match.group(1)!);
-    final end = parseTime(match.group(2)!);
+    final start = _parseTime(match.group(1)!);
+    final end = _parseTime(match.group(2)!);
     final text = match.group(3)!;
     cues.add(WebVttCue(start: start, end: end, text: text));
   }
@@ -24,7 +25,8 @@ List<WebVttCue> parseWebVtt(String subtitleData) {
   return cues;
 }
 
-Duration parseTime(String time) {
+// Helper method to parse time string to Duration
+Duration _parseTime(String time) {
   final parts = time.split(':');
   final secondsParts = parts[2].split('.');
   return Duration(
