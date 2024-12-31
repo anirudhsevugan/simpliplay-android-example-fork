@@ -1,5 +1,6 @@
 # ExoPlayer Creator
-An Android app that can create ExoPlayer 2 video players, HTML5 video players, and video players that play back what you recorded (called Camcorder players in-app) instantly, developed in MIT App Inventor, with a **beta** Flutter release, and an **extremely early** Media3 Kotlin demo.
+An Android tool, that can create ExoPlayer initializations instantaneously.
+The **new** version utilizes **Media3**, and the **old** (App Inventor) version utilizes **Media2** (which is deprecated according to Android standards).
 
 ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
 
@@ -7,7 +8,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | -------- | ------- |
 | ExoPlayer for App Inventor  | v1 and beyond    |
 | UpdateMyApp | v1.4.1  |
-| UrsAI2SideBar | v1.9  |
+| UrsAI2SideBar | v2.0  |
 
 
 ## App Inventor Ver. Compatibility
@@ -18,7 +19,7 @@ ExoPlayer Creator has been tested on the following devices with the following re
 | Android 15  | Yes   |  VM     |
 | Android 14 | Yes  |   Real Device   |
 | Android 8 | Yes  |   VM   |
-| Android 5 | **No**  |   VM   |
+| Android 5 | **Mostly Broken**  |   VM   |
 
 
 Compatibility-wise, **most versions of Android work just fine with the app**, but if you're using Android 7 or below, note that I either haven't tested the app on those devices or the app failed to function as intended.
@@ -26,14 +27,14 @@ Compatibility-wise, **most versions of Android work just fine with the app**, bu
 Make sure you **have a WebView installed**, or else the HTML5 player won't work because it relies on a WebView to display the player. This is important in VMs since unlike commercial devices they are meant more for developer purposes and thus lack some important tools, like the Play Store (some Android SDKs do not include it), WebViews, etc.
 
 ### Issues (that can't really be fixed)
-On Android 5, a severe codec issue happens when loading any video, in both ExoPlayer *and* the HTML5 player. This is most likely due to the fact that **Android 5 does not support the latest video codecs**.
+On Android 5, a severe codec issue happens when loading most videos (unless recorded with device camera), in both ExoPlayer *and* the HTML5 player. This is most likely due to the fact that **Android 5 does not support the latest video codecs**.
 
 And on any Android version, URLs that are signed using self-signed certificates return a source error in any video player in the app that supports using video URLs, **this is normal behavior in Android** and it ***cannot* be fixed** because Android does not allow bypassing this check.
 
 ## Flutter Ver.
-The Flutter version was built in Android Studio with the Flutter plugin, and primarily relies on the video_player and chewie plugins, uses the keep_screen_on plugin to keep screen active when playing a video, uses the file_picker plugin to pick a video and subtitle file on your device to play, and unlike the App Inventor version, uses a different UI standard, which is rendered with [Skia](https://skia.org/), that looks *similar* to Material UI, but is using a completely different framework.
+The Flutter version was built in Android Studio with the Flutter plugin, and primarily relies on the video_player and chewie plugins, uses the keep_screen_on plugin to keep screen active when playing a video, uses the file_picker plugin to pick a video and subtitle file on your device to play, and unlike the App Inventor version, uses a different UI standard, which is rendered with [Skia](https://skia.org/), Material UI.
 
-It uses **ExoPlayer 2**, just like the App Inventor version, but has less controls, but is simpler to use and *much* more user-friendly, and is solely ExoPlayer (at least, for now). It does not support a quality selector, or advanced audio settings, but it supports everything else the App Inventor version does in the ExoPlayer point of view (P.O.V).
+It uses **Media 3 ExoPlayer**, something the App Inventor version would've been dreaming of, but has less controls, but is simpler to use and *much* more user-friendly, and is solely ExoPlayer (at least, for now). It does not support a quality selector, or advanced audio settings, but it supports everything else the App Inventor version does in the ExoPlayer point of view (P.O.V).
 
 ## Media3 Demo (Very Early Demo)
 The Media3 Demo was built in Android Studio using Kotlin, and uses the [Media3 Player](https://github.com/akhorasani/Media3Player) app as a base for all Media3 support, and uses the traditional INTENT methods for URL redirects in Kotlin.
