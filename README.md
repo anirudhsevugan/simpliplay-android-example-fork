@@ -6,9 +6,12 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 
 | Extensions | First Used |
 | -------- | ------- |
-| ExoPlayer for App Inventor  | v1 and beyond    |
+| ExoPlayer for App Inventor  | v1 |
+| RelativeView | v1    |
+| ComponentTools | v1   |
 | UpdateMyApp | v1.4.1  |
 | UrsAI2SideBar | v2.0  |
+| OriginalToast | v2.2  |
 
 
 ## App Inventor Ver. Compatibility
