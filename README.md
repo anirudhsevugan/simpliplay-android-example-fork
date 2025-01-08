@@ -14,6 +14,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | OriginalToast | v2.2  |
 | Network | v2.4  |
 | UrsAI2KeepAwake | v2.5  |
+| GetMetrics | v2.5  |
 
 
 ## App Inventor Ver. Compatibility
