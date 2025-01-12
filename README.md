@@ -1,6 +1,6 @@
 # ExoPlayer Creator
 An Android tool, that can create ExoPlayer initializations instantaneously.
-The **new** version utilizes **Media3**, and the **old** (App Inventor) version utilizes **Media2** (which is deprecated according to Android standards).
+The **new** version utilizes **Media3**, and the App Inventor version utilizes **Media2**.
 
 ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
 
