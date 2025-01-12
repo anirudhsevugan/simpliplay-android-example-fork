@@ -24,6 +24,7 @@ ExoPlayer Creator has been tested on the following devices with the following re
 | -------- | ------- |  ------- |
 | Android 15  | Yes   |  VM     |
 | Android 14 | Yes  |   Real Device   |
+| Android 9 | Yes  |   VM   |
 | Android 8 | Yes  |   VM   |
 | Android 5 | **Mostly Broken**  |   VM   |
 
