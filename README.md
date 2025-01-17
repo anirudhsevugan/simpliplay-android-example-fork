@@ -9,7 +9,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | ExoPlayer for App Inventor  | v1 |
 | RelativeView | v1    |
 | ComponentTools | v1   |
-| UpdateMyApp | v1.4.1  |
+| ~~UpdateMyApp~~ | v1.4.1 - v3.3 |
 | UrsAI2SideBar | v2.0  |
 | OriginalToast | v2.2  |
 | Network | v2.4  |
