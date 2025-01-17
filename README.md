@@ -19,6 +19,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | ImageNotifier | v3.2.2 |
 | CustomDownloader | v3.4 |
 | AltNotifier | v3.4 |
+| NotificationStyle | v3.4 |
 
 
 ## App Inventor Ver. Compatibility
