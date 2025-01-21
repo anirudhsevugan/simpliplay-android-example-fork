@@ -21,6 +21,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | AltNotifier | v3.4 |
 | NotificationStyle | v3.4 |
 | UrsAI2MediaNotification | v3.9 |
+| Mp3Tags | v3.9 |
 
 
 ## App Inventor Ver. Compatibility
