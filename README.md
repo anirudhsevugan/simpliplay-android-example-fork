@@ -20,6 +20,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | CustomDownloader | v3.4 |
 | AltNotifier | v3.4 |
 | NotificationStyle | v3.4 |
+| media-notification | v3.9 |
 | Mp3Tags | v3.9 |
 
 
