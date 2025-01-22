@@ -4,6 +4,7 @@ The **Flutter** version utilizes **Media3**, and the **App Inventor (AI2)** vers
 
 Looking for an **iOS** app that does the same? Check out [SimpleiOSPlayer](https://github.com/A-Star100/SimpleiOSPlayer), also by me.
 
+## App Inventor
 ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
 
 | Extensions | First Used |
@@ -23,8 +24,6 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | AltNotifier | v3.4 |
 | NotificationStyle | v3.4 |
 
-
-## App Inventor Ver. Compatibility
 ExoPlayer Creator has been tested on the following devices with the following results:
 
 | Device | Compatible? | Real Device/VM |
