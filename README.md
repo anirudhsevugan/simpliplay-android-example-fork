@@ -2,6 +2,8 @@
 An Android app that allows you to play video using ExoPlayer, which supports many video formats, supports subtitles, and even includes support for playlists in the AI2 releases!
 The **Flutter** version utilizes **Media3**, and the **App Inventor (AI2)** version utilizes **Media2**.
 
+Looking for an iOS app that does the same? Check out [SimpleiOSPlayer](https://github.com/A-Star100/SimpleiOSPlayer), also by me.
+
 ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
 
 | Extensions | First Used |
@@ -52,6 +54,8 @@ It uses **Media 3 ExoPlayer**, something the App Inventor version would've been 
 The Media3 Demo was built in Android Studio using Kotlin, and uses the [Media3 Player](https://github.com/akhorasani/Media3Player) app by [@akhorasani](https://github.com/akhorasani) as a base for all Media3 support, and uses the traditional INTENT methods for URL redirects in Kotlin.
 
 It, unlike the other 2 versions, is in a **very early** state right now and does not support video URLs (believe me, I tried, and failed), as of now. However, the placeholder video is the [Big Buck Bunny](https://peach.blender.org/) short film, stored in a GCP (Google Cloud Protocol) storage bucket.
+
+The reason this release isn't recommended is because it doesn't include support for basic functionality, like entering custom video URLs or choosing custom video files.
 
 
 
