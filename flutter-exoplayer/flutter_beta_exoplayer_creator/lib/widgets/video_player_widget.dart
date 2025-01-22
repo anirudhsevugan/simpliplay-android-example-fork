@@ -4,6 +4,7 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io'; // Import to use File class
+import '../screens/video_screen.dart';
 import 'package:media3_exoplayer_creator/utils/permission_utils.dart'; // Import permission_utils.dart for permission handling
 import 'package:keep_screen_on/keep_screen_on.dart'; // Import keep_screen_on
 import '../utils/web_vtt.dart'; // Import web_vtt.dart for subtitle handling
@@ -15,12 +16,12 @@ class VideoPlayerWidget extends StatefulWidget {
   final String subtitleFilePath;
 
   const VideoPlayerWidget({
-    Key? key,
+    super.key,
     required this.videoUrl,
     required this.filePath,
     required this.subtitleUrl,
     required this.subtitleFilePath,
-  }) : super(key: key);
+  });
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -182,62 +183,69 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          setState(() {
-            _controlsVisible = !_controlsVisible; // Toggle controls visibility on tap
-          });
-          _applyImmersiveMode(); // Reapply immersive mode
-        },
-        child: Column(
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  Container(
+      body: Stack(
+        children: [
+          // This GestureDetector is now the topmost widget in the stack
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _controlsVisible = !_controlsVisible; // Toggle controls visibility on tap anywhere
+              });
+              _applyImmersiveMode(); // Reapply immersive mode
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
                     color: Colors.black,
                     child: Chewie(controller: _chewieController),
                   ),
-                  if (_isLoading)
-                    Center(child: CircularProgressIndicator()),
-                  if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty && !_isLoading)
-                    Positioned(
-                      bottom: 70,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        color: Colors.black.withOpacity(0.7),
-                        child: Text(
-                          _currentSubtitle!,
-                          style: TextStyle(fontSize: 19, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  // Custom playback speed control button
-                  Positioned(
-                    top: 20,
-                    right: 20,
-                    child: AnimatedOpacity(
-                      opacity: _controlsVisible ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 300), // Adjust duration for fade effect
-                      child: IconButton(
-                        icon: Icon(Icons.speed, color: Colors.white),
-                        onPressed: () {
-                          _showPlaybackSpeedDialog();
-                        },
-                      ),
-                    ),
-                  ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          // Loading Indicator
+          if (_isLoading)
+            Center(child: CircularProgressIndicator()),
+
+          // Subtitle display
+          if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty && !_isLoading)
+            Positioned(
+              bottom: 70,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                color: Colors.black.withOpacity(0.7),
+                child: Text(
+                  _currentSubtitle!,
+                  style: TextStyle(fontSize: 19, color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-          ],
-        ),
+
+          // Custom playback speed control button
+          Positioned(
+            top: 20,
+            right: 20,
+            child: AnimatedOpacity(
+              opacity: _controlsVisible ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 300), // Adjust duration for fade effect
+              child: IconButton(
+                icon: Icon(Icons.speed, color: Colors.white),
+                onPressed: () {
+                  _showPlaybackSpeedDialog();
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
+
+
 
   // Show a dialog to select the playback speed
   void _showPlaybackSpeedDialog() {
