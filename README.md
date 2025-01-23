@@ -51,7 +51,7 @@ It uses **Media 3 ExoPlayer**, something the App Inventor version would've been 
 
 ## Media3 Demo (Very Early Demo)
 > [!WARNING]
-> ***Please*** note that this version isn't recommended for use because it doesn't support basic functionality like entering a video URL or choosing a video file. It is recommended to use the **Flutter** release or the **AI2** release instead.
+> ***Please*** note that this version isn't recommended for use because it doesn't support basic functionality like choosing a video file, only entering a video URL. It is recommended to use the **Flutter** release or the **AI2** release instead.
 
 The Media3 Demo was built in Android Studio using Kotlin, and uses the [Media3 Player](https://github.com/akhorasani/Media3Player) app by [@akhorasani](https://github.com/akhorasani) as a base for all Media3 support, and uses the traditional INTENT methods for URL redirects in Kotlin.
 
