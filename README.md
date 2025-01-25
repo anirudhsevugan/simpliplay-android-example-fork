@@ -1,4 +1,6 @@
-# simpliplay-android (formerly known as ExoPlayer Creator)
+# simpliplay-android
+--(formerly known as ExoPlayer Creator)--
+
 An Android app that allows you to play video using ExoPlayer, which supports many video formats, supports subtitles, and even includes support for playlists in the AI2 releases!
 The **Flutter** version utilizes **Media3**, and the **App Inventor (AI2)** version utilizes **Media2**.
 
