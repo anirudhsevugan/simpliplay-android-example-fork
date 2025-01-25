@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/services.dart'; // Import for SystemChrome
 import '../widgets/video_player_widget.dart';
-import '../utils/video_player_manager.dart';
 
 class VideoScreen extends StatefulWidget {
   const VideoScreen({super.key});
@@ -16,15 +14,12 @@ class _VideoScreenState extends State<VideoScreen> {
   String _filePath = '';
   String _subtitleUrl = '';
   String _subtitleFilePath = '';
-  bool _isDarkMode = false;
-
-
-
+  final bool _isDarkMode = false; // Store the manual theme preference
 
   // Pick a video or audio file
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.media, // This allows both video and audio file selection
+      type: FileType.media,
     );
 
     if (result != null && result.files.single.path != null) {
@@ -43,39 +38,35 @@ class _VideoScreenState extends State<VideoScreen> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return Center( // Center the dialog
-          child: SingleChildScrollView(
-            child: AlertDialog(
-              title: const Text('Enter Video URL'),
-              content: TextField(
-                controller: videoController,
-                decoration: const InputDecoration(hintText: 'Enter a valid video URL'),
-                keyboardType: TextInputType.url,
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Cancel'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    setState(() {
-                      _videoUrl = videoController.text;
-                      _filePath = '';
-                    });
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
+        return AlertDialog(
+          title: const Text('Enter Video URL'),
+          content: TextField(
+            controller: videoController,
+            decoration: const InputDecoration(hintText: 'Enter a valid video URL'),
+            keyboardType: TextInputType.url,
           ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                setState(() {
+                  _videoUrl = videoController.text;
+                  _filePath = '';
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
   }
 
-  // Show the subtitle dialog
+// Show the subtitle dialog
   Future<void> _showSubtitleDialog() async {
     final TextEditingController subtitleController = TextEditingController();
 
@@ -83,62 +74,57 @@ class _VideoScreenState extends State<VideoScreen> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return Center( // Center the dialog
-          child: SingleChildScrollView(
-            child: AlertDialog(
-              title: const Text('Enter Subtitle URL'),
-              content: TextField(
-                controller: subtitleController,
-                decoration: const InputDecoration(hintText: 'Enter a valid subtitle URL'),
-                keyboardType: TextInputType.url,
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Cancel'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    setState(() {
-                      _subtitleUrl = subtitleController.text;
-                      _subtitleFilePath = ''; // Clear file path when URL is used
-                    });
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
+        return AlertDialog(
+          title: const Text('Enter Subtitle URL'),
+          content: TextField(
+            controller: subtitleController,
+            decoration: const InputDecoration(hintText: 'Enter a valid subtitle URL'),
+            keyboardType: TextInputType.url,
           ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                setState(() {
+                  _subtitleUrl = subtitleController.text;
+                  _subtitleFilePath = ''; // Clear file path when URL is used
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
   }
 
+
+  // Play the video
+  void _playMedia() {
+    setState(() {
+      // Switch to the VideoPlayerWidget screen
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop, // Use this for back button intercept
+      onWillPop: _onWillPop, // Custom back button behavior
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light, // Toggle theme mode
+        themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.system,
+        // Respect system theme
         theme: _lightTheme(),
-        darkTheme: _darkTheme(), // Apply dark theme
+        darkTheme: _darkTheme(),
         home: Scaffold(
           appBar: _videoUrl.isNotEmpty || _filePath.isNotEmpty
               ? null // Hide AppBar when video is playing
               : AppBar(
-            title: const Text('ExoPlayer Creator'),
-            actions: [
-              IconButton(
-                icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
-                onPressed: () {
-                  setState(() {
-                    _isDarkMode = !_isDarkMode;
-                  });
-                },
-              ),
-            ],
+            title: const Text('SimpliPlay Neo'),
           ),
           body: Center(
             child: _videoUrl.isEmpty && _filePath.isEmpty
@@ -146,53 +132,74 @@ class _VideoScreenState extends State<VideoScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 20),
-                  // Enter Video URL Button
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.link, size: 50),
-                        onPressed: _showVideoURLDialog,
-                      ),
-                      const Text('Enter Video URL'),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  // Subtitle URL Button
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.subtitles, size: 50),
-                        onPressed: _showSubtitleDialog,
-                      ),
-                      const Text('Add Subtitle URL'),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  // Choose File Button
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.video_library, size: 50),
-                        onPressed: _pickFile,
-                      ),
-                      const Text('Choose File'),
-                    ],
-                  ),
+                  // Central Buttons (Enter Video URL, Choose File, Add Subtitle)
+                  _buildButtonRow(),
+                  SizedBox(height: 20),
+                  // Play Button - This only appears if a file or URL is chosen
                 ],
               ),
             )
-                : VideoPlayerWidget(
-              videoUrl: _videoUrl,
-              filePath: _filePath,
-              subtitleUrl: _subtitleUrl,
-              subtitleFilePath: _subtitleFilePath,
+                : WillPopScope(
+              onWillPop: () async {
+                // Show confirmation dialog before exiting VideoPlayerWidget
+                return (await _showExitConfirmation()) ?? false;
+              },
+              child: VideoPlayerWidget(
+                videoUrl: _videoUrl,
+                filePath: _filePath,
+                subtitleUrl: _subtitleUrl,
+                subtitleFilePath: _subtitleFilePath,
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
+  // Row containing the buttons
+  Widget _buildButtonRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildCentralButton(
+          icon: Icons.link,
+          label: 'Enter Video URL',
+          onPressed: _showVideoURLDialog,
+        ),
+        SizedBox(width: 20),
+        _buildCentralButton(
+          icon: Icons.video_library,
+          label: 'Choose File',
+          onPressed: _pickFile,
+        ),
+        SizedBox(width: 20),
+        _buildCentralButton(
+          icon: Icons.subtitles,
+          label: 'Enter Subtitle URL',
+          onPressed: _showSubtitleDialog,
+        ),
+      ],
+    );
+  }
+
+  // Central button widget
+  Widget _buildCentralButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return Column(
+      children: [
+        IconButton(
+          icon: Icon(icon, size: 50),
+          onPressed: onPressed,
+        ),
+        Text(label),
+      ],
+    );
+  }
+
 
   Future<bool> _onWillPop() async {
     // If the video is not playing (i.e., file or URL is empty), exit the app
@@ -204,6 +211,7 @@ class _VideoScreenState extends State<VideoScreen> {
     return (await _showExitConfirmation()) ?? false;
   }
 
+  // Show the exit confirmation dialog
   Future<bool?> _showExitConfirmation() async {
     return showDialog<bool>(
       context: context,
@@ -215,13 +223,15 @@ class _VideoScreenState extends State<VideoScreen> {
             TextButton(
               child: const Text('No'),
               onPressed: () {
-                Navigator.of(context).pop(false); // Go back to VideoScreen
+                Navigator.of(context).pop(false); // Stay on current screen
               },
             ),
             TextButton(
               child: const Text('Yes'),
               onPressed: () {
-                Navigator.of(context).pop(true); // Exit the app
+                Navigator.of(context).pop(true); // Navigate back to VideoScreen
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => VideoScreen()));
               },
             ),
           ],
@@ -253,15 +263,24 @@ class _VideoScreenState extends State<VideoScreen> {
         bodyMedium: TextStyle(color: Colors.black),
         bodySmall: TextStyle(color: Colors.black),
       ),
+      dialogTheme: DialogTheme(
+        backgroundColor: Colors.white,
+        // White background for dialog in light mode
+        titleTextStyle: TextStyle(
+            color: Colors.black), // Black text in light mode
+      ),
     );
   }
 
+// Dark theme
   ThemeData _darkTheme() {
     return ThemeData(
-      primaryColor: Colors.blue, // Primary color for the theme
-      scaffoldBackgroundColor: Colors.black, // Black background for the scaffold
+      primaryColor: Colors.blue,
+      // Primary color for the theme
+      scaffoldBackgroundColor: Colors.black,
+      // Black background for the scaffold
       colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-          .copyWith(secondary: Colors.blue), // Customize color scheme
+          .copyWith(secondary: Colors.blue),
       appBarTheme: AppBarTheme(
         color: Colors.blue, // Blue AppBar background
         titleTextStyle: TextStyle(
@@ -277,6 +296,12 @@ class _VideoScreenState extends State<VideoScreen> {
         bodyLarge: TextStyle(color: Colors.white),
         bodyMedium: TextStyle(color: Colors.white),
         bodySmall: TextStyle(color: Colors.white),
+      ),
+      dialogTheme: DialogTheme(
+        backgroundColor: Color(0xFF333333),
+        // Dark background for dialog in dark mode
+        titleTextStyle: TextStyle(
+            color: Colors.white), // White text in dark mode
       ),
     );
   }
