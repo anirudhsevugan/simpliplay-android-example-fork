@@ -4,7 +4,6 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io'; // Import to use File class
-import '../screens/video_screen.dart';
 import 'package:media3_exoplayer_creator/utils/permission_utils.dart'; // Import permission_utils.dart for permission handling
 import 'package:keep_screen_on/keep_screen_on.dart'; // Import keep_screen_on
 import '../utils/web_vtt.dart'; // Import web_vtt.dart for subtitle handling
@@ -47,9 +46,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
     // Initialize the video player controller based on video URL or file path
     if (widget.filePath.isNotEmpty) {
-      _videoPlayerController = VideoPlayerController.file(File(widget.filePath));
+      _videoPlayerController =
+          VideoPlayerController.file(File(widget.filePath));
     } else {
-      _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
+      _videoPlayerController =
+          VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
     }
 
     // Initialize the Chewie controller for video playback
@@ -83,7 +84,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       aspectRatio: 16 / 9,
       autoPlay: true,
       looping: true,
-      allowPlaybackSpeedChanging: false, // Disable built-in playback speed dropdown
+      allowPlaybackSpeedChanging: false,
+      // Disable built-in playback speed dropdown
       customControls: MaterialControls(
         // Custom controls if needed
       ),
@@ -94,7 +96,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void dispose() {
     KeepScreenOn.turnOff();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
     _videoPlayerController.removeListener(_updateCurrentSubtitle);
     _chewieController.dispose();
@@ -189,7 +192,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           GestureDetector(
             onTap: () {
               setState(() {
-                _controlsVisible = !_controlsVisible; // Toggle controls visibility on tap anywhere
+                _controlsVisible =
+                !_controlsVisible; // Toggle controls visibility on tap anywhere
               });
               _applyImmersiveMode(); // Reapply immersive mode
             },
@@ -209,7 +213,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             Center(child: CircularProgressIndicator()),
 
           // Subtitle display
-          if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty && !_isLoading)
+          if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty &&
+              !_isLoading)
             Positioned(
               bottom: 70,
               left: 0,
@@ -227,13 +232,14 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
           // Custom playback speed control button
           Positioned(
-            top: 20,
-            right: 20,
+            top: 0,
+            right: 0,
             child: AnimatedOpacity(
               opacity: _controlsVisible ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 300), // Adjust duration for fade effect
+              duration: Duration(milliseconds: 300),
+              // Adjust duration for fade effect
               child: IconButton(
-                icon: Icon(Icons.speed, color: Colors.white),
+                icon: SizedBox.shrink(), // No icon, just an empty space
                 onPressed: () {
                   _showPlaybackSpeedDialog();
                 },
@@ -245,26 +251,42 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     );
   }
 
-
-
-  // Show a dialog to select the playback speed
   void _showPlaybackSpeedDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Select Playback Speed"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0].map((speed) {
-              return ListTile(
-                title: Text("${speed}x"),
-                onTap: () {
-                  _changePlaybackSpeed(speed);
-                  Navigator.of(context).pop();
-                },
-              );
-            }).toList(),
+          title: Text(
+            "Select Playback Speed",
+            style: TextStyle(
+              fontSize: 20, // Keep the title size consistent
+              color: Colors.white, // Set the title text color to white
+            ),
+          ),
+          content: SingleChildScrollView( // Wrap content with SingleChildScrollView
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0].map((
+                  speed) {
+                return ListTile(
+                  title: Text(
+                    "${speed}x",
+                    style: TextStyle(
+                      color: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.color ??
+                          Colors.black, // Dynamic text color based on theme
+                    ),
+                  ),
+                  onTap: () {
+                    _changePlaybackSpeed(speed);
+                    Navigator.of(context).pop();
+                  },
+                );
+              }).toList(),
+            ),
           ),
         );
       },
