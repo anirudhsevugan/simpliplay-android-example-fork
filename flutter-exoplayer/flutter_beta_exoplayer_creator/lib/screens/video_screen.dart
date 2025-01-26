@@ -16,10 +16,10 @@ class _VideoScreenState extends State<VideoScreen> {
   String _subtitleFilePath = '';
   final bool _isDarkMode = false; // Store the manual theme preference
 
-  // Pick a video or audio file
-  Future<void> _pickFile() async {
+  // Function to pick the file after choosing the type
+  Future<void> _pickFile(FileType type) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.media,
+      type: type, // File type selected by user
     );
 
     if (result != null && result.files.single.path != null) {
@@ -28,6 +28,39 @@ class _VideoScreenState extends State<VideoScreen> {
         _videoUrl = ''; // Clear video URL if file is picked
       });
     }
+  }
+
+  // Show the dialog to choose file type
+  Future<void> _showFileTypeDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('What kind of file would you like to pick?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Audio'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _pickFile(FileType.audio); // Pick video files
+              },
+            ),
+            TextButton(
+              child: const Text('Video'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _pickFile(FileType.video); // Pick audio files
+              },
+            ),
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(), // Cancel action
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // Show the dialog to enter video URL
@@ -66,7 +99,7 @@ class _VideoScreenState extends State<VideoScreen> {
     );
   }
 
-// Show the subtitle dialog
+  // Show the subtitle dialog
   Future<void> _showSubtitleDialog() async {
     final TextEditingController subtitleController = TextEditingController();
 
@@ -101,7 +134,6 @@ class _VideoScreenState extends State<VideoScreen> {
       },
     );
   }
-
 
   // Play the video
   void _playMedia() {
@@ -171,7 +203,7 @@ class _VideoScreenState extends State<VideoScreen> {
         _buildCentralButton(
           icon: Icons.video_library,
           label: 'Choose File',
-          onPressed: _pickFile,
+          onPressed: _showFileTypeDialog, // Show the file type dialog
         ),
         SizedBox(width: 20),
         _buildCentralButton(
@@ -199,7 +231,6 @@ class _VideoScreenState extends State<VideoScreen> {
       ],
     );
   }
-
 
   Future<bool> _onWillPop() async {
     // If the video is not playing (i.e., file or URL is empty), exit the app
@@ -272,7 +303,7 @@ class _VideoScreenState extends State<VideoScreen> {
     );
   }
 
-// Dark theme
+  // Dark theme
   ThemeData _darkTheme() {
     return ThemeData(
       primaryColor: Colors.blue,
