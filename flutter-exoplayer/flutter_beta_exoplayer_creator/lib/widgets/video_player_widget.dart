@@ -185,68 +185,73 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // This GestureDetector is now the topmost widget in the stack
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _controlsVisible =
-                !_controlsVisible; // Toggle controls visibility on tap anywhere
-              });
-              _applyImmersiveMode(); // Reapply immersive mode
-            },
-            child: Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.black,
-                    child: Chewie(controller: _chewieController),
+    return WillPopScope(
+      onWillPop: () async {
+        _applyImmersiveMode(); // Reapply immersive mode on back press
+        return true; // Allow the back action to proceed
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            // This GestureDetector is now the topmost widget in the stack
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _controlsVisible = !_controlsVisible; // Toggle controls visibility on tap anywhere
+                });
+                _applyImmersiveMode(); // Reapply immersive mode
+              },
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: Colors.black,
+                      child: Chewie(controller: _chewieController),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Loading Indicator
+            if (_isLoading)
+              Center(child: CircularProgressIndicator()),
+
+            // Subtitle display
+            if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty && !_isLoading)
+              Positioned(
+                bottom: 70,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  color: Colors.black.withOpacity(0.7),
+                  child: Text(
+                    _currentSubtitle!,
+                    style: TextStyle(fontSize: 19, color: Colors.white),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ],
-            ),
-          ),
-          // Loading Indicator
-          if (_isLoading)
-            Center(child: CircularProgressIndicator()),
+              ),
 
-          // Subtitle display
-          if (_currentSubtitle != null && _currentSubtitle!.isNotEmpty &&
-              !_isLoading)
+            // Custom playback speed control button
             Positioned(
-              bottom: 70,
-              left: 0,
-              right: 0,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                color: Colors.black.withOpacity(0.7),
-                child: Text(
-                  _currentSubtitle!,
-                  style: TextStyle(fontSize: 19, color: Colors.white),
-                  textAlign: TextAlign.center,
+              top: 8,
+              right: 8,
+              child: AnimatedOpacity(
+                opacity: _controlsVisible ? 1.0 : 0.0,
+                duration: Duration(milliseconds: 300),
+                // Adjust duration for fade effect
+                child: IconButton(
+                  icon: SizedBox.shrink(), // No icon, just an empty space
+                  onPressed: () {
+                    _applyImmersiveMode(); // Reapply immersive mode
+                    _showPlaybackSpeedDialog();
+                  },
                 ),
               ),
             ),
-
-          // Custom playback speed control button
-          Positioned(
-            top: 0,
-            right: 0,
-            child: AnimatedOpacity(
-              opacity: _controlsVisible ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 300),
-              // Adjust duration for fade effect
-              child: IconButton(
-                icon: SizedBox.shrink(), // No icon, just an empty space
-                onPressed: () {
-                  _showPlaybackSpeedDialog();
-                },
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -260,7 +265,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             "Select Playback Speed",
             style: TextStyle(
               fontSize: 20, // Keep the title size consistent
-              color: Colors.white, // Set the title text color to white
+              color: Theme
+                  .of(context)
+                  .brightness == Brightness.light
+                  ? Colors.grey
+                  : Colors.grey
             ),
           ),
           content: SingleChildScrollView( // Wrap content with SingleChildScrollView
@@ -277,7 +286,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                           .textTheme
                           .bodyMedium
                           ?.color ??
-                          Colors.black, // Dynamic text color based on theme
+                          Colors.grey, // Dynamic text color based on theme
                     ),
                   ),
                   onTap: () {
