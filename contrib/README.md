@@ -1,6 +1,8 @@
 # contrib
 This branch is for contributions to the source code. The source code should be read from the *main* branch. Any contributions, or modified versions of the same software will be here,
-with different folders for different authors. **You should NOT make pull requests for contributions in the main branch, you should make it in this branch after you've created a fork with your modifications**.
+with different folders for different authors. **You should NOT make pull requests for contributions in the main branch, you should make it in this branch after you've created a fork with your modifications**. 
+
+There should be **one fork** for each contributor, or a team of contributors. This fork should be modified with all the modifications you made. **You should not make a new fork for each modification**. **Continue using the old one**.
 
 If your contribution pleases reviewers enough, it will eventually be added to the *main* branch and be included with **all** releases of the app from then.
 
