@@ -5,6 +5,7 @@ An Android app that allows you to play video using ExoPlayer, which supports man
 The **Flutter** version utilizes **Media3**, and the **App Inventor (AI2)** version utilizes **Media2**.
 
 **Want to make contributions?** Go to the [contrib](https://github.com/A-Star100/simpliplay-android/tree/contrib) branch.
+
 Looking for the **iOS** version? Check out [simpliplay-ios](https://github.com/A-Star100/simpliplay-ios), also by me.
 
 ## App Inventor Ver.
