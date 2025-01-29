@@ -40,17 +40,17 @@ class _VideoScreenState extends State<VideoScreen> {
           title: const Text('What kind of file would you like to pick?'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Audio'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _pickFile(FileType.audio); // Pick video files
-              },
-            ),
-            TextButton(
               child: const Text('Video'),
               onPressed: () {
                 Navigator.of(context).pop();
-                _pickFile(FileType.video); // Pick audio files
+                _pickFile(FileType.video); // Pick video files
+              },
+            ),
+            TextButton(
+              child: const Text('Audio'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _pickFile(FileType.audio); // Pick audio files
               },
             ),
             TextButton(
