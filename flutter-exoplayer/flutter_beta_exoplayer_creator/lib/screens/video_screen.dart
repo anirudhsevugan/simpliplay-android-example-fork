@@ -196,7 +196,7 @@ class _VideoScreenState extends State<VideoScreen> {
       children: [
         _buildCentralButton(
           icon: Icons.link,
-          label: 'Enter Video URL',
+          label: 'Enter Media URL',
           onPressed: _showVideoURLDialog,
         ),
         SizedBox(width: 20),
