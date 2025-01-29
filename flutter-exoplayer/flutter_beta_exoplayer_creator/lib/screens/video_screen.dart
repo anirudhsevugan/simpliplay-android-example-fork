@@ -72,10 +72,10 @@ class _VideoScreenState extends State<VideoScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Enter Video URL'),
+          title: const Text('Enter Media URL'),
           content: TextField(
             controller: videoController,
-            decoration: const InputDecoration(hintText: 'Enter a valid video URL'),
+            decoration: const InputDecoration(hintText: 'Enter a valid media URL'),
             keyboardType: TextInputType.url,
           ),
           actions: <Widget>[
