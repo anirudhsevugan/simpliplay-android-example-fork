@@ -28,6 +28,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | AltNotifier | v3.4 |
 | NotificationStyle | v3.4 |
 | TaifunClipboard | v4.3.1 |
+| VideoLayout | v4.5 |
 
 ExoPlayer Creator has been tested on the following devices with the following results:
 
