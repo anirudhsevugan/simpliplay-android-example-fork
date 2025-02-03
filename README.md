@@ -6,7 +6,7 @@ The **Flutter** version utilizes **Media3**, and the **App Inventor (AI2)** vers
 
 **Want to make contributions?** Go to the [contrib](https://github.com/A-Star100/simpliplay-android/tree/contrib) branch.
 
-Looking for the **iOS** version? Check out [simpliplay-ios](https://github.com/A-Star100/simpliplay-ios), also by me.
+Looking for the **iOS** version? Check out [simpliplay-ios](https://github.com/A-Star100/simpliplay-ios)!
 
 ## App Inventor Ver.
 The App Inventor version primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
