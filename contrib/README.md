@@ -3,8 +3,8 @@
 ## How to contribute
    - First, create a new fork of the *contrib* branch of the repo.
    
-   - Second, add a new folder to your repo (don't delete existing folders, doing this can affect other people's contributions), and name it something like *[your-username]*. If you're       creating a new modified version with later changes, it's recommended to create a subfolder inside that covers each major version for your modified release (for example, version 1       is the first version of modifications you have made. Inside the folder for the first version, patches like 1.x will be inside. Inside 1.x folders will be 1.x.x folders, if any are      needed, for patches). Please don't replace a version of your source code (even though I do). It creates clutter and keeps the history of your modifications from being accessible.
-   
+   - Second, create a new folder in your repo (don't delete existing folders as this can affect others' contributions). Then name the folder something like *[your-username]*. Inside         there should be a folder covering a major version of a series of your modification(s). For example, the first version should be a subfolder. Inside there will be folders for            patches (like one folder for 1.x and inside that a folder for 1.x.x). And avoid replacing older versions of your code unless you really need to (e.g, a critical bug), as it             keeps the history of your modifications inaccessible and less people can learn from what you did.
+     
    - Third, add your modified source code to that folder (refer to the *main* branch for the original source code to modify).
    
    - Fourth, submit a pull request to the repository in the *contrib* branch. You might have to wait awhile until it gets approved and your fork gets merged with the branch.
