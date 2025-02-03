@@ -3,7 +3,7 @@
 ## How to contribute
    - First, create a new fork of the *contrib* branch of the repo.
    
-   - Second, add a new folder to your repo (don't delete existing folders, doing this will hurt other people's contributions), and name it something like *[your-username]*.
+   - Second, add a new folder to your repo (don't delete existing folders, doing this can affect other people's contributions), and name it something like *[your-username]*. If you're       creating a new modified version with later changes, it's recommended to create a subfolder inside that covers each major version for your modified release (for example, version 1       is the first version of modifications you have made. Inside the folder for the first version, patches like 1.x will be inside. Inside 1.x folders will be 1.x.x folders, if any are      needed, for patches). Please don't replace a version of your source code (even though I do). It creates clutter and keeps the history of your modifications from being accessible.
    
    - Third, add your modified source code to that folder (refer to the *main* branch for the original source code to modify).
    
@@ -22,4 +22,6 @@ If your contribution pleases reviewers enough, it will eventually be added to th
 ## Rules
 1. Contributions should only contain the source code, and should NOT contain build files, or folders like *android/*. For example, if you're editing the Flutter release, only submit the content in the *lib/* folder, where all text-based source code for the app is stored.
 
-2. Contributions should NOT contain any errors. To test any errors in your source code, try compiling your app. In the AI2 version, any errors would be either runtime errors, bugs that cause the app to freeze or unexpectedly stop, or duplicate event blocks. In the Flutter version, any errors would either be syntax errors, bugs that cause the app to freeze or unexpectedly stop, or runtime errors.
+2. Contributions should *not* contain any errors. To test any errors in your source code, try compiling your app. In the AI2 version, any errors would be either runtime errors, bugs that cause the app to freeze or unexpectedly stop, or duplicate event blocks. In the Flutter version, any errors would either be syntax errors, bugs that cause the app to freeze or unexpectedly stop, or runtime errors.
+
+3. Keep code organized. Make separate folders if possible.
