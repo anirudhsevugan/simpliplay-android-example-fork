@@ -11,6 +11,8 @@
    
    - Five, that's pretty much it! Enjoy your day!
 
+     **If you're still confused, refer to this example fork and take a look at how it's structured**.
+
 ## About this branch
 This branch is for contributions to the source code. The source code should be read from the *main* branch. Any contributions, or modified versions of the same software will be here,
 with different folders for different authors. **You should NOT make pull requests for contributions in the main branch, you should make it in this branch after you've created a fork with your modifications**. 
