@@ -1,3 +1,5 @@
+**This is an example fork, don't use it for anything other than learning how to contribute, this fork will be useless for all other cases**.
+
 # contrib
 
 ## How to contribute
@@ -10,8 +12,6 @@
    - Fourth, submit a pull request to the repository in the *contrib* branch. You might have to wait awhile until it gets approved and your fork gets merged with the branch.
    
    - Five, that's pretty much it! Enjoy your day!
-
-     **If you're still confused, refer to this example fork and take a look at how it's structured**.
 
 ## About this branch
 This branch is for contributions to the source code. The source code should be read from the *main* branch. Any contributions, or modified versions of the same software will be here,
