@@ -1,15 +1,15 @@
 # contrib
 
 ## How to contribute
-   First, create a new fork of the *contrib* branch of the repo.
+   - First, create a new fork of the *contrib* branch of the repo.
    
-   Second, add a new folder to your repo (don't delete existing folders, doing this will hurt other people's contributions), and name it something like *[your-username]*.
+   - Second, add a new folder to your repo (don't delete existing folders, doing this will hurt other people's contributions), and name it something like *[your-username]*.
    
-   Third, add your modified source code to that folder (refer to the *main* branch for the original source code to modify).
+   - Third, add your modified source code to that folder (refer to the *main* branch for the original source code to modify).
    
-   Fourth, submit a pull request to the repository in the *contrib* branch. You might have to wait awhile until it gets approved and your fork gets merged with the branch.
+   - Fourth, submit a pull request to the repository in the *contrib* branch. You might have to wait awhile until it gets approved and your fork gets merged with the branch.
    
-   Five, that's pretty much it! Enjoy your day!
+   - Five, that's pretty much it! Enjoy your day!
 
 ## About this branch
 This branch is for contributions to the source code. The source code should be read from the *main* branch. Any contributions, or modified versions of the same software will be here,
