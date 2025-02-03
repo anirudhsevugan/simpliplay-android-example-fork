@@ -9,7 +9,7 @@ The **Flutter** version utilizes **Media3**, and the **App Inventor (AI2)** vers
 Looking for the **iOS** version? Check out [simpliplay-ios](https://github.com/A-Star100/simpliplay-ios), also by me.
 
 ## App Inventor Ver.
-ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
+The App Inventor version primarily uses the [ExoPlayer for App Inventor](https://github.com/zainulhassan815/exoplayer-appinventor) extension to create ExoPlayer initializations, and is a modified version of the 1.0.4 AIA version of the [ExoPlayer for App Inventor demo](https://github.com/zainulhassan815/exoplayer-appinventor/blob/v2.0/aia/exoplayer_v1.0.4.aia).
 
 | Extensions | First Used |
 | -------- | ------- |
@@ -29,7 +29,7 @@ ExoPlayer Creator primarily uses the [ExoPlayer for App Inventor](https://github
 | NotificationStyle | v3.4 |
 | TaifunClipboard | v4.3.1 |
 
-ExoPlayer Creator has been tested on the following devices with the following results:
+It has been tested on the following devices with the following results:
 
 | Device | Compatible? | Real Device/VM |
 | -------- | ------- |  ------- |
@@ -37,17 +37,9 @@ ExoPlayer Creator has been tested on the following devices with the following re
 | Android 14 | Yes  |   Real Device   |
 | Android 9 | Yes  |   VM   |
 | Android 8 | Yes  |   VM   |
-| Android 5 | **Mostly Broken**  |   VM   |
+| Android 5 | **Partially**  |   VM   |
 
-
-Compatibility-wise, **most versions of Android work just fine with the app**, but if you're using Android 7 or below, note that I either haven't tested the app on those devices or the app failed to function as intended.
-
-Make sure you **have a WebView installed**, or else the HTML5 player won't work because it relies on a WebView to display the player. This is important in VMs since unlike commercial devices they are meant more for developer purposes and thus lack some important tools, like the Play Store (some Android SDKs do not include it), WebViews, etc.
-
-### Issues (that can't really be fixed)
-On Android 5, a severe codec issue happens when loading most videos (unless recorded with device camera). **Android 5 does not support the latest video codecs**.
-
-And on any Android version, URLs that are signed using self-signed certificates return a source error in any video player in the app that supports using video URLs, **this is normal behavior in Android** and it ***cannot* be fixed** because Android does not allow bypassing this check.
+*Android 5 does not support enough codecs, so only videos taken from the camera will play at all*.
 
 ## Flutter Ver.
 The Flutter version was built in Android Studio with the Flutter plugin, and primarily relies on the video_player and chewie plugins, uses the keep_screen_on plugin to keep screen active when playing a video, uses the file_picker plugin to pick a video and subtitle file on your device to play, and unlike the App Inventor version, uses a different UI standard, which is rendered with [Skia](https://skia.org/), Material UI.
@@ -56,7 +48,7 @@ It uses **Media 3 ExoPlayer**, something the App Inventor version would've been 
 
 ## Media3 Demo (Very Early Demo)
 > [!WARNING]
-> ***Please*** note that this version isn't recommended for use because it doesn't support basic functionality like entering a video URL or choosing a video file. It is recommended to use the **Flutter** release or the **AI2** release instead.
+> This version is an early Kotlin demo that doesn't support media URLs or files, and serves as a demo in its purest form. This version is **no longer supported**, and will not recieve updates on further notice.
 
 The Media3 Demo was built in Android Studio using Kotlin, and uses the [Media3 Player](https://github.com/akhorasani/Media3Player) app by [@akhorasani](https://github.com/akhorasani) as a base for all Media3 support, and uses the traditional INTENT methods for URL redirects in Kotlin.
 
