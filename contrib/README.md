@@ -20,7 +20,7 @@ There should be **one fork** for each contributor, or a team of contributors. Th
 If your contribution pleases reviewers enough, it will eventually be added to the *main* branch and be included with **all** releases of the app from then.
 
 ## Rules
-1. Contributions should only contain the source code, and should NOT contain build files, or folders like *android/*. For example, if you're editing the Flutter release, only submit the content in the *lib/* folder, where all text-based source code for the app is stored.
+1. Contributions should only contain the source code not build files/SDK files (e.g, folders like *android/* or *build/*). For example, if you're editing the Flutter release, only submit the content in the *lib/* folder, where all text-based source code for the app is stored, to save on space and reduce clutter. If you really need to change these files, talk about it in your pull request.
 
 2. Contributions should *not* contain any errors. To test any errors in your source code, try compiling your app. In the AI2 version, any errors would be either runtime errors, bugs that cause the app to freeze or unexpectedly stop, or duplicate event blocks. In the Flutter version, any errors would either be syntax errors, bugs that cause the app to freeze or unexpectedly stop, or runtime errors.
 
