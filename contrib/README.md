@@ -24,4 +24,4 @@ If your contribution pleases reviewers enough, it will eventually be added to th
 
 2. Contributions should *not* contain any errors. To test any errors in your source code, try compiling your app. In the AI2 version, any errors would be either runtime errors, bugs that cause the app to freeze or unexpectedly stop, or duplicate event blocks. In the Flutter version, any errors would either be syntax errors, bugs that cause the app to freeze or unexpectedly stop, or runtime errors.
 
-3. Keep code organized. Make separate folders if possible.
+3. Keep code organized. Make separate folders if possible. (for example, *the first version should be a subfolder. Inside there will be folders for patches (like one folder for 1.x...*)
