@@ -1,16 +1,7 @@
-# media3_exoplayer_creator
+# simpliplay-android (flutter)
 
-ExoPlayer Creator that supports Media3
+*(Previously known as media3_exoplayer_creator)*
 
-## Getting Started
+simpliplay-android's Flutter release supports Media3, uses chewie as a skin for the video_player package, and more. Read more about it [here](https://simpliplay.netlify.app/doc).
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
