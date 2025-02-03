@@ -1,4 +1,4 @@
-# simpliplay-android (flutter)
+# simpliplay-android (flutter/Neo release)
 
 *(Previously known as media3_exoplayer_creator)*
 
